@@ -26,7 +26,7 @@ public class Categoria {
 	@Size(min = 5, max = 100)
 	private String tema;
 	
-	@Size(min = 10, max = 500)
+	@Size(min = 10)
 	private String descricao;
 
 	
