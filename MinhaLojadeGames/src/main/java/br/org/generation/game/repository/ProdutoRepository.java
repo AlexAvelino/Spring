@@ -1,10 +1,10 @@
-package br.org.generation.blog.repository;
+package br.org.generation.game.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.org.generation.blog.model.Produto;
+import br.org.generation.game.model.Produto;
 
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {

@@ -1,4 +1,4 @@
-package br.org.generation.blog.model;
+package br.org.generation.game.model;
 
 import java.util.List;
 
