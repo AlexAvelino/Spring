@@ -8,4 +8,5 @@ import br.org.generation.blog.model.Usuario;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	public Optional <Usuario> findByUsuario(String usuario);
+	public Usuario findFirstByNome (String nome);
 }
