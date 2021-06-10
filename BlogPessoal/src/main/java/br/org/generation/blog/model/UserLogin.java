@@ -10,6 +10,10 @@ public class UserLogin {
 	
 	private String token;
 
+	public UserLogin(Usuario usuario2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getNome() {
 		return nome;
 	}

@@ -4,17 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+import java.util.Optional;
+
+import br.org.generation.blog.model.Usuario;
+import br.org.generation.blog.repository.UsuarioRepository;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+//import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import br.org.generation.blog.model.Usuario;
-import br.org.generation.blog.repository.UsuarioRepository;
-
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -22,45 +24,57 @@ public class UsuarioRepositoryTest {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
+	
 	@BeforeAll
 	public void start() {
-		Usuario usuario = new Usuario("Chefe", "0y", "9xxxxxxx9");
-		if (UsuarioRepository.findFirstByNome(usuario.getNome()) == null)
-			UsuarioRepository.save(usuario);
-
-		usuario = new Usuario("Novo Chefe", "0y", "8xxxxxxx8");
-		if (UsuarioRepository.findFirstByNome(usuario.getNome()) == null)
-			UsuarioRepository.save(usuario);
-
-		usuario = new Usuario("chefe Mais Antigo", "0y", "7xxxxxxx7");
-		if (usuarioRepository.findFirstByNome(usuario.getNome()) == null)
+		usuarioRepository.deleteAll();
+		
+		Usuario usuario = new Usuario("Ana Carol", "hanna","12345678");
+		
+		if(usuarioRepository.findByUsuario("hanna").isEmpty()) {
 			usuarioRepository.save(usuario);
-
-		usuario = new Usuario(null, "Amigo", "0z", "5xxxxxxx5");
-		if (UsuarioRepository.findFirstByNome(usuario.getNome()) == null)
-			UsuarioRepository.save(usuario);
+		}
+		
+		usuario = new Usuario("Ana Thais", "hanna","987654321");
+		if(usuarioRepository.findByUsuario("hanna").isEmpty()) {
+			usuarioRepository.save(usuario);
+		}
+		
+		usuario = new Usuario("Ana Erica", "hanna","45327891");
+		if(usuarioRepository.findByUsuario("hanna").isEmpty()) {
+			usuarioRepository.save(usuario);
+		}
+		
+		usuario = new Usuario("Anderson souza", "Andersoncool","jorginho");
+		if(usuarioRepository.findByUsuario("Andersoncool").isEmpty()) {
+			usuarioRepository.save(usuario);
+		}
+		
+		usuarioRepository.save(usuario);
 	}
-
+	
 	@Test
-	public void findByNomeRetornausuario() throws Exception {
-
-		Usuario usuario = UsuarioRepository.findFirstByNome("Chefe");
-
-		assertTrue(usuario.getNome().equals("Chefe"));
+	public void testFindByUsuario() throws Exception {
+		Optional<Usuario> usuario;
+		
+		usuario = usuarioRepository.findByUsuario("hanna");
+		
+		assertTrue(usuario.get().getUsuario().equals("hanna"));
 	}
-
+	
 	@Test
-	public void findAllByNomeIgnoreCaseRetornaTresusuario() {
-
-		List<Usuario> usuarios = UsuarioRepository.findByUsuario("chefe");
-
-		assertEquals(3, usuarios.size());
+	public void testFindAllIgnoringCase() throws Exception {
+		List<Usuario> usuario = usuarioRepository.findAllByNomeContainingIgnoreCase("anna");
+		
+		assertEquals(3, usuario.size());
+		
 	}
-
+	
+	
 	@AfterAll
 	public void end() {
-		UsuarioRepository.deleteAll();
+		usuarioRepository.deleteAll();
 	}
+	
 	
 }
